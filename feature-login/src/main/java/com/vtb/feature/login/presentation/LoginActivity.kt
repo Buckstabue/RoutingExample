@@ -4,13 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import com.vtb.core.AppInjector
 import com.vtb.core.BaseActivity
-import com.vtb.core.di.CoreApi
+import com.vtb.core.SmartFeatureApiProvider
 import com.vtb.feature.login.R
-import com.vtb.feature.login.di.DaggerLoginFeatureComponent
-import com.vtb.feature.main.screen.api.MainScreenFeatureApi
-import javax.inject.Inject
+import com.vtb.feature.login.di.LoginFeatureComponent
 
 class LoginActivity : BaseActivity() {
     companion object {
@@ -19,19 +16,16 @@ class LoginActivity : BaseActivity() {
         }
     }
 
-    @Inject
     lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        val featureApiProvider = AppInjector.featureApiProvider
-
-        val loginComponent = DaggerLoginFeatureComponent.builder()
-            .coreApi(featureApiProvider.provideApi(CoreApi::class.java))
-            .mainScreenFeatureApi(featureApiProvider.provideApi(MainScreenFeatureApi::class.java))
-            .build()
-        loginComponent.inject(this)
+        val loginComponent = LoginFeatureComponent(
+            coreApi = SmartFeatureApiProvider.provideApi(),
+            mainScreenFeatureApi = SmartFeatureApiProvider.provideApi()
+        )
+        loginViewModel = loginComponent.loginViewModel
 
         findViewById<View>(R.id.sign_in_button).setOnClickListener {
             loginViewModel.onSignInClick()

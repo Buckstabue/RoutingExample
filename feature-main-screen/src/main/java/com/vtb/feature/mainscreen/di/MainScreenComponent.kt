@@ -1,12 +1,12 @@
 package com.vtb.feature.mainscreen.di
 
+import com.vtb.core.SmartFeatureApiProvider
 import com.vtb.core.di.CoreApi
 import com.vtb.feature.main.screen.api.MainScreenFeatureApi
-import dagger.Component
+import com.vtb.feature.mainscreen.MainScreenFeatureStarterImpl
 
-@MainScreenScope
-@Component(
-    modules = [MainScreenFeatureModule::class],
-    dependencies = [CoreApi::class]
-)
-interface MainScreenComponent : MainScreenFeatureApi
+class MainScreenComponent(
+    private val coreApi: CoreApi = SmartFeatureApiProvider.provideApi()
+) : MainScreenFeatureApi {
+    override val mainScreenFeatureStarter by lazy { MainScreenFeatureStarterImpl(coreApi.cicerone) }
+}

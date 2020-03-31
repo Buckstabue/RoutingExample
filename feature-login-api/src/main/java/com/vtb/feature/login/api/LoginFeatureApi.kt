@@ -1,5 +1,5 @@
 package com.vtb.feature.login.api
 
 interface LoginFeatureApi {
-    fun loginFeatureStarter(): LoginFeatureStarter
+    val loginFeatureStarter: LoginFeatureStarter
 }

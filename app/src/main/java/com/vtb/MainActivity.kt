@@ -10,8 +10,8 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val splashFeatureApi =
-            AppInjector.coreApi.featureApiProvider().provideApi(SplashFeatureApi::class.java)
-        val splashFeatureStarter = splashFeatureApi.splashFeatureStarter()
+            AppInjector.coreApi.featureApiProvider.provideApi(SplashFeatureApi::class.java)
+        val splashFeatureStarter = splashFeatureApi.splashFeatureStarter
         splashFeatureStarter.openSplash()
     }
 }

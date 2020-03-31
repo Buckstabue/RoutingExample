@@ -1,16 +1,19 @@
 package com.vtb.feature.login.di
 
+import com.vtb.core.SmartFeatureApiProvider
 import com.vtb.core.di.CoreApi
+import com.vtb.feature.login.LoginFeatureStarterImpl
 import com.vtb.feature.login.api.LoginFeatureApi
-import com.vtb.feature.login.presentation.LoginActivity
+import com.vtb.feature.login.presentation.LoginViewModel
 import com.vtb.feature.main.screen.api.MainScreenFeatureApi
-import dagger.Component
 
-@Component(
-    dependencies = [CoreApi::class, MainScreenFeatureApi::class],
-    modules = [LoginModule::class]
-)
-@LoginFeatureScope
-interface LoginFeatureComponent : LoginFeatureApi {
-    fun inject(loginActivity: LoginActivity)
+class LoginFeatureComponent(
+    private val coreApi: CoreApi = SmartFeatureApiProvider.provideApi(),
+    private val mainScreenFeatureApi: MainScreenFeatureApi = SmartFeatureApiProvider.provideApi()
+) : LoginFeatureApi {
+
+    override val loginFeatureStarter by lazy { LoginFeatureStarterImpl(coreApi.cicerone) }
+
+    val loginViewModel: LoginViewModel
+        get() = LoginViewModel(mainScreenFeatureApi.mainScreenFeatureStarter)
 }

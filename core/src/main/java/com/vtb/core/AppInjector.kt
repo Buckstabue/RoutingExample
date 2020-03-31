@@ -7,7 +7,7 @@ object AppInjector {
         private set
 
     val featureApiProvider: FeatureApiProvider
-        get() = coreApi.featureApiProvider()
+        get() = coreApi.featureApiProvider
 
     fun setCoreApi(coreApi: CoreApi) {
         this.coreApi = coreApi

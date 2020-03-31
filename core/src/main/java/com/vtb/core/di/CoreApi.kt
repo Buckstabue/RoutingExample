@@ -5,6 +5,6 @@ import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.Router
 
 interface CoreApi {
-    fun featureApiProvider(): FeatureApiProvider
-    fun cicerone(): Cicerone<Router>
+    val featureApiProvider: FeatureApiProvider
+    val cicerone: Cicerone<Router>
 }

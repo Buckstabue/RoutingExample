@@ -4,11 +4,11 @@ import com.vtb.core.AppInjector
 import com.vtb.core.FeatureApiProvider
 import com.vtb.core.di.CoreApi
 import com.vtb.feature.login.api.LoginFeatureApi
-import com.vtb.feature.login.di.DaggerLoginFeatureComponent
+import com.vtb.feature.login.di.LoginFeatureComponent
 import com.vtb.feature.main.screen.api.MainScreenFeatureApi
-import com.vtb.feature.mainscreen.di.DaggerMainScreenComponent
+import com.vtb.feature.mainscreen.di.MainScreenComponent
 import com.vtb.feature.splash.api.SplashFeatureApi
-import com.vtb.feature.splash.di.DaggerSplashComponent
+import com.vtb.feature.splash.di.SplashComponent
 
 class FeatureApiProviderImpl : FeatureApiProvider {
 
@@ -24,27 +24,14 @@ class FeatureApiProviderImpl : FeatureApiProvider {
     }
 
     private fun createMainScreenFeatureApi(): MainScreenFeatureApi {
-        return DaggerMainScreenComponent.builder()
-            .coreApi(provideFeatureApi())
-            .build()
+        return MainScreenComponent()
     }
 
     private fun createLoginFeatureApi(): LoginFeatureApi {
-        return DaggerLoginFeatureComponent.builder()
-            .coreApi(provideFeatureApi())
-            .mainScreenFeatureApi(provideFeatureApi())
-            .build()
+        return LoginFeatureComponent()
     }
 
     private fun createSplashFeatureApi(): SplashFeatureApi {
-        return DaggerSplashComponent.builder()
-            .coreApi(provideFeatureApi())
-            .mainScreenFeatureApi(provideFeatureApi())
-            .loginFeatureApi(provideFeatureApi())
-            .build()
-    }
-
-    private inline fun <reified T : Any> provideFeatureApi(): T {
-        return provideApi(T::class.java)
+        return SplashComponent()
     }
 }
